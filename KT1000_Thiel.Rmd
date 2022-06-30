@@ -1,0 +1,78 @@
+---
+title: "KT_1000"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plyr)
+library(papeR)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(tidyr)
+# library(foreign)
+library(multcomp)
+library(broom)
+# library(nlme)
+library(tidyverse)
+library(readxl)
+# library(stargazer)
+library(reshape2)
+library(rmarkdown)
+library(psych)
+library(RColorBrewer)
+library(data.table)
+# library(minpack.lm)
+# library(numDeriv)
+# library(pracma)
+# library(formattable)
+# library(lme4)
+# library(audiometry) # for audiogram 
+# library(tictoc)
+# library(sjPlot)
+# library(emmeans)
+# library(jtools) # for interaction
+# library(interactions)
+# 
+```
+
+## Summary of project:
+Landon <ARMSTRONGLR@mail.etsu.edu> and Drew <MILLARW@mail.etsu.edu> would like to examine the similarity of anterior movement of the knee measured by the KT1000 in a thiel embalmed and a knee in vivo. Anterior movement was measured in millimeters at two levels of pressure 15 lbs (67 N) and 20 lbs (89 N). Procedure is to measure the anterior movement of both left and right knees. The clinical standard of suspected injury is if one knees moves >= 3mm more than the other knee. 
+
+Study Aims:
+1) show that thiel donor knees show similar assessment characteristics to knees in vivo and therefore, could be used as a realistic training tool. 
+1a) the thiel embalming process and duration may alter measurements therefore, a correction factor will be examined
+1b) show that the clinical threshold of injury between left and right knees remains stable after thiel embalming. 
+
+Our approach is to compare KT1000 measurements of apparent uninjured knees of thiel embalmed donors (n= 13) to uninjured knees (n = 21) taken in vivo from a publication. Data obtained from the primary author of the publication is comprised of ID and KT1000 measurements at 15 lbs (67 N) and 20 lbs (89 N) of pressure. Only one knee (left or right) per participant or donor was used. 
+
+In the thiel donors, the default selection was the right knee. If a donor had >= 3mm of anterior movement in the right knee over the left, the left knee was used as the right knee meets the clinical threshold for suspected injury. 
+
+## Import data
+
+```{r}
+
+Data_raw = read_excel('Comparative Analysis of ATT.xlsx', sheet = 1)
+
+# thiel data, sheet 1, 1:27 M:U 
+Thiel_raw = Data_raw[1:26, 13:21]
+
+# if na, copy info from row above, ie duplicate for each knee
+for (i in 1:nrow(Thiel_raw)) { 
+  if (is.na(Thiel_raw[i,1])){ 
+    Thiel_raw[i,1:6] = Thiel_raw[(i-1),1:6]
+  }
+}
+# find Age on sheet 2 with Donor ID from sheet 1
+
+# Publication/in vivo data - Sheet 1, 1:22 A:C
+
+```
+
+Factors on measurement to examine
+1) thiel duration 
+2) sex
+3) age
+4)
